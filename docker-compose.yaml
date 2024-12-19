@@ -1,27 +1,31 @@
-version: '3.8'  # Specifies the Compose file format version
+version: "3.8"
+
 services:
-  frontend:
+  web:
     depends_on:
-      - backend 
+      - api
     build: ./client
     ports:
-      - "5173:5173"   
+      - 5173:5173
     environment:
       VITE_API_URL: http://localhost:3001
-  backend:
+
+  api:
     depends_on:
-      - db 
+      - db
     build: ./server
     ports:
-      - "3001:3001"
+      - 3001:3001
     environment:
-      MONGO_URL: mongodb://db/Alumni 
+      MONGO_URL: mongodb://db/Alumni
+      PORT: 3001
+
   db:
     image: mongo:4.4
     ports:
-      - "27017:27017"
+      - 27017:27017
     volumes:
-      - Alumni:/var/lib/mongo/data
+      - Alumni:/data/db
 
 volumes:
-  Alumni:          
+  Alumni:
